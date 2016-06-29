@@ -1,0 +1,21 @@
+.gallery{
+	margin: 0 -2px;
+}
+.gallery:after{
+	display: table;
+	content: '';
+	clear: both;
+}
+.gallery__item{
+	width: 33.3333%;
+	float: left;
+	padding: 0 2px;
+	margin-bottom: 4px;
+}
+.gallery__item:hover{
+	opacity: .7;
+}
+.gallery__item img{
+	width: 100%;
+	height: auto;
+}
