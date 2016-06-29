@@ -1,2 +1,2 @@
-# qqw
-QQW jQuery based Image gallery
+# qqw jQuery based Image gallery plugin
+Created for study purposes
