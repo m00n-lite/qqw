@@ -46,6 +46,23 @@
 			setTimeout(function()
 			{
 				qqw_instance.goToIndex($(clicked_element).index());
+				qqw_instance.wrap = qqw_instance.getElement(qqw_instance.options.wrap);
+				qqw_instance.prevButton = qqw_instance.getElement(qqw_instance.options.prevButton);
+				qqw_instance.nextButton = qqw_instance.getElement(qqw_instance.options.nextButton);
+				qqw_instance.closeButton = qqw_instance.getElement(qqw_instance.options.closeButton);
+				//test//
+				qqw_instance.prevButton.on('click',function(){
+					console.log('prevButton clicked');
+					qqw_instance.goPrev();
+				});
+				qqw_instance.nextButton.on('click',function(){
+					console.log('nextButton clicked');
+					qqw_instance.goNext();
+				});
+				qqw_instance.closeButton.on('click',function(){
+					console.log('wrap removed');
+					$(this).parent().remove();
+				});
 			}, 100);
 		});
 	}
@@ -58,22 +75,7 @@
 		html +=			'<span class="qqw__close"></span>';
 		html +=			'</div>';
 
-		$(html).appendTo('body');
-		this.wrap = this.getElement(this.options.wrap);
-		this.prevButton = this.getElement(this.options.prevButton);
-		this.nextButton = this.getElement(this.options.nextButton);
-		this.closeButton = this.getElement(this.options.closeButton);
-		//test//
-		this.prevButton.on('click',function(){
-			console.log('prevButton clicked');
-		});
-		this.nextButton.on('click',function(){
-			console.log('nextButton clicked');
-		});
-		this.closeButton.on('click',function(){
-			console.log('wrap removed');
-			$(this).parent().remove();
-		});				
+		$(html).appendTo('body');				
 	}
 	qqw.prototype.getElement=function(input){
 		if(typeof input == 'object')
@@ -89,12 +91,26 @@
 	qqw.prototype.goToIndex = function(index)
 	{	
 		this.currentSlide = index;
-		if(index < 0 || index >= this.imageList.length)
+		if(this.currentSlide < 0)
 		{
-			this.currentSlide = 0;
+			this.currentSlide = this.imageList.length-1;
+		}
+		else if(this.currentSlide == this.imageList.length)
+		{
+			this.currentSlide = 0;	
 		}
 
-		$('.qqw__wrap').css('background-image', 'url(' + this.imageList[index] + ')');
+		$('.qqw__wrap').css('background-image', 'url(' + this.imageList[this.currentSlide] + ')');
+	}
+	qqw.prototype.goNext = function()
+	{	
+		++this.currentSlide
+		this.goToIndex(this.currentSlide);
+	}
+	qqw.prototype.goPrev = function()
+	{	
+		--this.currentSlide
+		this.goToIndex(this.currentSlide);
 	}
 	// Export
 	window.qqw = qqw;
