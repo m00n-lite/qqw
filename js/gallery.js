@@ -10,7 +10,9 @@
 		 	trigger: 'a',
 		 	slideTime: '.5s',
 		 	prevButton: '.qqw__previous',
-		 	nextButton: '.qqw__next'
+		 	nextButton: '.qqw__next',
+		 	closeButton: '.qqw__close',
+		 	wrap: '.qqw__wrap'
 		 };
 
 		this.options = options;
@@ -21,6 +23,7 @@
 		}
 		this.container  = this.getElement(container);
 		this.imageList = [];
+		this.currentSlide=0;
 		this.container.find(this.options.trigger).each(function(i, e)
 		{
 			if(e.hasAttribute('href'))
@@ -52,17 +55,24 @@
 		var html = 	'<div class="qqw__wrap">';
 		html +=			'<span class="qqw__next"></span>';
 		html +=			'<span class="qqw__previous"></span>';
+		html +=			'<span class="qqw__close"></span>';
 		html +=			'</div>';
 
 		$(html).appendTo('body');
+		this.wrap = this.getElement(this.options.wrap);
 		this.prevButton = this.getElement(this.options.prevButton);
 		this.nextButton = this.getElement(this.options.nextButton);
+		this.closeButton = this.getElement(this.options.closeButton);
 		//test//
 		this.prevButton.on('click',function(){
 			console.log('prevButton clicked');
 		});
 		this.nextButton.on('click',function(){
 			console.log('nextButton clicked');
+		});
+		this.closeButton.on('click',function(){
+			console.log('wrap removed');
+			$(this).parent().remove();
 		});				
 	}
 	qqw.prototype.getElement=function(input){
@@ -77,16 +87,15 @@
 	}
 
 	qqw.prototype.goToIndex = function(index)
-	{
+	{	
+		this.currentSlide = index;
 		if(index < 0 || index >= this.imageList.length)
 		{
-			index = 0;
+			this.currentSlide = 0;
 		}
 
 		$('.qqw__wrap').css('background-image', 'url(' + this.imageList[index] + ')');
 	}
-
 	// Export
 	window.qqw = qqw;
-
 })();
