@@ -6,25 +6,21 @@
 		var qqw_instance = this;
 
 		// Default options
-		// var defaultOptions = {
-		// 	trigger: 'a',
-		// 	slideTime: '.5s'
-		// };
+		 var defaultOptions = {
+		 	trigger: 'a',
+		 	slideTime: '.5s',
+		 	prevButton: '.qqw__previous',
+		 	nextButton: '.qqw__next'
+		 };
 
-		// Compare options with default
 		this.options = options;
-
-		if(typeof container == 'object')
-		{
-			this.container = container;
+		// Compare options with default
+		for(i in defaultOptions){
+			if(typeof this.options[i] == 'undefined')
+				this.options[i]=defaultOptions[i];
 		}
-		else if(typeof container == 'string')
- 		{
-			this.container = $(container);
-		}
-
+		this.container  = this.getElement(container);
 		this.imageList = [];
-
 		this.container.find(this.options.trigger).each(function(i, e)
 		{
 			if(e.hasAttribute('href'))
@@ -59,6 +55,25 @@
 		html +=			'</div>';
 
 		$(html).appendTo('body');
+		this.prevButton = this.getElement(this.options.prevButton);
+		this.nextButton = this.getElement(this.options.nextButton);
+		//test//
+		this.prevButton.on('click',function(){
+			console.log('prevButton clicked');
+		});
+		this.nextButton.on('click',function(){
+			console.log('nextButton clicked');
+		});				
+	}
+	qqw.prototype.getElement=function(input){
+		if(typeof input == 'object')
+		{
+			return input;
+		}
+		else if(typeof input == 'string')
+ 		{
+			return $(input);
+		}		
 	}
 
 	qqw.prototype.goToIndex = function(index)
