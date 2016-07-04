@@ -12,7 +12,8 @@
 		 	prevButton: '.qqw__previous',
 		 	nextButton: '.qqw__next',
 		 	closeButton: '.qqw__close',
-		 	wrap: '.qqw__wrap'
+		 	wrap: '.qqw__wrap',
+		 	wrapper_html: '<div class="qqw__wrap"><span class="qqw__next"></span><span class="qqw__previous"></span><span class="qqw__close"></span>'
 		 };
 
 		this.options = options;
@@ -69,12 +70,7 @@
 
 	qqw.prototype.bootstrap = function()
 	{
-		var html = 	'<div class="qqw__wrap">';
-		html +=			'<span class="qqw__next"></span>';
-		html +=			'<span class="qqw__previous"></span>';
-		html +=			'<span class="qqw__close"></span>';
-		html +=			'</div>';
-
+		var html = this.options.wrapper_html;
 		$(html).appendTo('body');				
 	}
 	qqw.prototype.getElement=function(input){
@@ -100,7 +96,7 @@
 			this.currentSlide = 0;	
 		}
 
-		$('.qqw__wrap').css('background-image', 'url(' + this.imageList[this.currentSlide] + ')');
+		$(this.options.wrap).css('background-image', 'url(' + this.imageList[this.currentSlide] + ')');
 	}
 	qqw.prototype.goNext = function()
 	{	
